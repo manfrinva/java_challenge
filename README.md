@@ -1,4 +1,4 @@
-JAVA CHALLENGE
+bowling
 Manual deployment
 Requirements
 It's application requires the following: Java 8, maven and git;
