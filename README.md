@@ -22,5 +22,3 @@ mvn test
 ```
 mvn clean test-compile failsafe:integration-test
 ```
-
-## Concourse deployment
