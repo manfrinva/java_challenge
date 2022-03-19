@@ -166,7 +166,6 @@ public class FrameServiceImpl implements FrameService {
       String score = scores.get(i);
 
       if (this.isLastFrame(currentFrame)) {
-        // TODO: improve it to get n index to create the scores
         int secondIndex = i+1;
         int thirdIndex  = i+2;
         String secondScore = scores.get(secondIndex);
