@@ -4,7 +4,6 @@
 It's application requires the following:
 - Java 8
 - maven
-- git
 
 ### Generates jar File
 It's necessary to package the code:
