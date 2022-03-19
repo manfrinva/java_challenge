@@ -6,7 +6,7 @@ import java.util.List;
 //This is the representation of line with contains the player and score frames information.
 public class LineDTO {
   //Frames in the line 
-  //private List<FrameDTO> frames;
+  private List<FrameDTO> frames;
   //Player information
 
   private PlayerDTO player;
