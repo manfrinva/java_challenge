@@ -1,0 +1,204 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+   xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+   <modelVersion>4.0.0</modelVersion>
+
+   <groupId>jobsity</groupId>
+   <artifactId>bowling</artifactId>
+   <version>1.0.0-SNAPSHOT</version>
+   <packaging>jar</packaging>
+
+   <name>Bowling</name>
+   <description>Demo application to bowling scoring</description>
+
+   <parent>
+      <groupId>org.springframework.boot</groupId>
+      <artifactId>spring-boot-starter-parent</artifactId>
+      <version>1.5.9.RELEASE</version>
+      <relativePath/> <!-- lookup parent from repository -->
+   </parent>
+
+   <properties>
+      <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+      <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
+      <java.version>1.8</java.version>
+   </properties>
+
+   <dependencies>
+      <dependency>
+         <groupId>org.springframework.boot</groupId>
+         <artifactId>spring-boot-starter</artifactId>
+      </dependency>
+      <dependency>
+         <groupId>org.springframework.boot</groupId>
+         <artifactId>spring-boot-starter-test</artifactId>
+      </dependency>
+      <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-web</artifactId>
+      </dependency>
+
+      <dependency>
+        <groupId>ch.qos.logback</groupId>
+        <artifactId>logback-classic</artifactId>
+      </dependency>
+
+      <dependency>
+          <groupId>org.mockito</groupId>
+          <artifactId>mockito-core</artifactId>
+          <version>2.8.9</version>
+      </dependency>
+
+  </dependencies>
+
+  <profiles>
+      <!-- The Configuration of the development profile -->
+      <profile>
+          <id>dev</id>
+          <activation>
+              <activeByDefault>true</activeByDefault>
+          </activation>
+          <properties>
+
+              <build.profile.id>dev</build.profile.id>
+              <!--
+                  Only unit tests are run when the development profile is active
+              -->
+              <skip.integration.tests>true</skip.integration.tests>
+              <skip.unit.tests>false</skip.unit.tests>
+          </properties>
+      </profile>
+      <!-- The Configuration of the integration-test profile -->
+      <profile>
+          <id>integration-test</id>
+          <properties>
+
+              <build.profile.id>integration-test</build.profile.id>
+              <!--
+                  Only integration tests are run when the integration-test profile is active
+              -->
+              <skip.integration.tests>false</skip.integration.tests>
+              <skip.unit.tests>true</skip.unit.tests>
+          </properties>
+      </profile>
+  </profiles>
+
+  <build>
+    <plugins>
+     <plugin>
+        <groupId>org.springframework.boot</groupId>
+        <artifactId>spring-boot-maven-plugin</artifactId>
+     </plugin>
+
+     
+
+      <!-- JACOCO-->
+      <plugin>
+          <groupId>org.jacoco</groupId>
+          <artifactId>jacoco-maven-plugin</artifactId>
+          <version>0.7.9</version>
+          <executions>
+            <execution>
+                <goals>
+                    <goal>prepare-agent</goal>
+                </goals>
+                </execution>
+                <execution>
+                <id>generate-code-coverage-report</id>
+                <phase>test</phase>
+                <goals>
+                    <goal>report</goal>
+                </goals>
+                </execution>
+            </executions>
+        </plugin>
+
+        <plugin>
+          <groupId>org.apache.maven.plugins</groupId>
+          <artifactId>maven-surefire-plugin</artifactId>
+          <version>2.18</version>
+          <configuration>
+              <!-- Excludes integration tests when unit tests are run -->
+              <excludes>
+                  <exclude>**/IT*.java</exclude>
+              </excludes>
+          </configuration>
+       </plugin>
+
+      <plugin>
+          <groupId>org.apache.maven.plugins</groupId>
+          <artifactId>maven-failsafe-plugin</artifactId>
+          <version>2.18</version>
+          <executions>
+              <!--
+                  Invokes both the integration-test and the verify goals of the
+                  Failsafe Maven plugin
+              -->
+              <execution>
+                  <id>integration-tests</id>
+                  <goals>
+                      <goal>integration-test</goal>
+                      <goal>verify</goal>
+                  </goals>
+
+              </execution>
+          </executions>
+
+
+      </plugin>
+
+      <plugin>
+          <groupId>org.codehaus.mojo</groupId>
+          <artifactId>build-helper-maven-plugin</artifactId>
+          <version>1.9.1</version>
+          <executions>
+
+              <execution>
+                <id>add-integration-test-sources</id>
+                <phase>generate-test-sources</phase>
+                <goals>
+                    <goal>add-test-source</goal>
+                </goals>
+                <configuration>
+                    <!-- Configures the source directory of our integration tests -->
+                    <sources>
+                        <source>src/integration-test/java</source>
+                    </sources>
+                    <excludes>
+                        <exclude>**/*Test*.java</exclude>
+                    </excludes>
+                </configuration>
+              </execution>
+              <!-- Add a new resource directory to our build -->
+              <execution>
+                <id>add-integration-test-resources</id>
+                <phase>generate-test-resources</phase>
+                <goals>
+                    <goal>add-test-resource</goal>
+                </goals>
+                <configuration>
+                    <!-- Configures the resource directory of our integration tests -->
+                    <resources>
+                        <!--
+                            Placeholders that are found from the files located in the configured resource
+                            directories are replaced with the property values found from the profile
+                            specific configuration file.
+                        -->
+                        <resource>
+                            <filtering>true</filtering>
+                            <directory>src/integration-test/resources</directory>
+                        </resource>
+                    </resources>
+
+                    <excludes>
+                        <exclude>**/Test*.java</exclude>
+                    </excludes>
+                </configuration>
+              </execution>
+          </executions>
+      </plugin>
+     </plugins>
+   </build>
+
+
+</project>
